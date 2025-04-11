@@ -1,8 +1,13 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Heart, Search, Calendar, Users, UserCog, Settings, LogOut, LayoutGrid, Clock, Check } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+
+import { Link } from 'react-router-dom';
+import Sidebar from '../components/Sidebar';
+
 
 const data = [
   { hour: '9', bookings: 30 },
@@ -245,39 +250,10 @@ function Dashboard() {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      {/* Sidebar */}
-      <div className="fixed top-0 left-0 h-screen w-56 bg-black text-white p-3 rounded-r-2xl">
-        <div className="flex items-center gap-2 mb-6">
-          <Heart className="text-white" />
-          <span className="text-lg font-bold">MediFlow</span>
-        </div>
-        <nav className="space-y-3">
-          <div className="flex items-center gap-2 bg-teal-600 p-2 rounded-lg">
-            <LayoutGrid size={18} />
-            <span className="text-sm">Dashboard</span>
-          </div>
-          <div className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800 transition-colors">
-            <Calendar size={18} />
-            <span className="text-sm">Appointments</span>
-          </div>
-          <div className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800 transition-colors">
-            <Users size={18} />
-            <span className="text-sm">Patients</span>
-          </div>
-          <div className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800 transition-colors">
-            <UserCog size={18} />
-            <span className="text-sm">Doctors</span>
-          </div>
-          <div className="mt-auto flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800 transition-colors">
-            <Settings size={18} />
-            <span className="text-sm">Settings</span>
-          </div>
-          <div className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800 transition-colors">
-            <LogOut size={18} />
-            <span className="text-sm">Log out</span>
-          </div>
-        </nav>
-      </div>
+      
+      
+ {/* Sidebar */}
+ <Sidebar />
 
       {/* Main Content */}
       <div className="flex-1 ml-56 mr-64 p-6 overflow-auto">
