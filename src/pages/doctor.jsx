@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, Search, User } from 'lucide-react';
+import { Calendar, Search, User, Trash } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -30,6 +30,24 @@ const DoctorManagement = () => {
     },
     reason: ""
   });
+
+  const [selectedDoctors, setSelectedDoctors] = useState([]);
+
+  const handleCheckboxChange = (doctorId) => {
+    setSelectedDoctors((prev) =>
+      prev.includes(doctorId)
+        ? prev.filter((id) => id !== doctorId)
+        : [...prev, doctorId]
+    );
+  };
+
+  const handleDeleteDoctors = () => {
+    console.log("Selected Doctors:", selectedDoctors);
+    console.log("Before Deletion:", doctors);
+    setDoctors((prev) => prev.filter((doctor) => !selectedDoctors.includes(doctor.id)));
+    console.log("After Deletion:", doctors);
+    setSelectedDoctors([]);
+  };
 
   const filteredDoctors = doctors.filter(doctor => 
     doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -113,6 +131,13 @@ const DoctorManagement = () => {
               >
                 Add Doctor
               </button>
+              <button
+                className="bg-white px-4 py-2 rounded-lg shadow border border-gray-300 flex items-center gap-2"
+                onClick={handleDeleteDoctors}
+              >
+                <Trash className="text-red-500" size={20} />
+                Delete
+              </button>
             </div>
           </div>
 
@@ -120,7 +145,8 @@ const DoctorManagement = () => {
             <table className="w-full">
               <thead>
                 <tr>
-                 
+                <th className="p-3 text-left bg-teal-600 text-white">
+Select</th>
                   <th className="p-3 text-left bg-teal-600 text-white">Doctor Name</th>
                   <th className="p-3 text-left bg-teal-600 text-white">Phone number</th>
                   <th className="p-3 text-left bg-teal-600 text-white">Specialization</th>
@@ -131,19 +157,26 @@ const DoctorManagement = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredDoctors.map((doctor) => (
-                  <tr key={doctor.id} className="border-b">
-                  
-                    <td className="p-3">{doctor.name}</td>
-                    <td className="p-3">{doctor.phone}</td>
-                    <td className="p-3">{doctor.specialization}</td>
-                    <td className="p-3">{doctor.schedule}</td>
-                    <td className="p-3">{doctor.consultationTime}</td>
-                    <td className="p-3">{doctor.fee}</td>
-                    <td className="p-3">{doctor.slotsPerHour}</td>
-                  </tr>
-                ))}
-              </tbody>
+  {filteredDoctors.map((doctor) => (
+    <tr key={doctor.id} className="border-b">
+      <td className="p-3">
+        <input
+          type="checkbox"
+          className="cursor-pointer"
+          checked={selectedDoctors.includes(doctor.id)}
+          onChange={() => handleCheckboxChange(doctor.id)} // Ensure this updates the state
+        />
+      </td>
+      <td className="p-3">{doctor.name}</td>
+      <td className="p-3">{doctor.phone}</td>
+      <td className="p-3">{doctor.specialization}</td>
+      <td className="p-3">{doctor.schedule}</td>
+      <td className="p-3">{doctor.consultationTime}</td>
+      <td className="p-3">{doctor.fee}</td>
+      <td className="p-3">{doctor.slotsPerHour}</td>
+    </tr>
+  ))}
+</tbody>
             </table>
           </div>
         </div>
